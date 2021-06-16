@@ -3,9 +3,9 @@
 {% block title %}New Topic{% endblock %}
 
 {% block body %}
-    <h1>Create new Topic</h1>
-
+    <h1 style="margin-top:5%;margin-bottom:3%;">Create new Topic</h1>
+    <div style="display: flex;flex-flow: column wrap;align-items: center;">
     {{ include('topic/_form.html.twig') }}
-
-    <a href="{{ path('topic_index') }}">back to list</a>
+    </div>
+    <a href="{{ path('topic_index') }}" class="nav-link" style="display:flex;align-items:center;justify-content:center;">back to list</a>
 {% endblock %}

@@ -3,11 +3,11 @@
 {% block title %}Forum{% endblock %}
 
 {% block body %}
-<h1>Salsifi Forum</h1>
+<h1 style="margin-top:5%;margin-bottom:3%;">Salsifi Forum</h1>
 
-<table class="table">
+<table class="table table-hover">
         <thead>
-            <tr>
+            <tr class="table-secondary">
                 <th>Id</th>
                 <th>Title</th>
                 <th>Content</th>
@@ -18,7 +18,7 @@
         </thead>
         <tbody>
         {% for topic in topics %}
-            <tr>
+            <tr class="table-light">
                 <td>{{ topic.id }}</td>
                 <td>{{ topic.title }}</td>
                 <td>{{ topic.content }}</td>
@@ -37,5 +37,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('topic_new') }}">Create new</a>
+    <a href="{{ path('topic_new') }}" class="nav-link" style="display:flex;align-items:center;justify-content:center;">Create new</a>
 {% endblock %}
