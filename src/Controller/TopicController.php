@@ -7,6 +7,7 @@ use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Form\TopicType;
 use App\Repository\TopicRepository;
+use App\Repository\CommentRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -55,7 +56,7 @@ class TopicController extends AbstractController
     /**
      * @Route("/{id}", name="topic_show", methods={"GET", "POST"})
      */
-    public function show(Topic $topic, Request $request): Response
+    public function show(Topic $topic, Request $request, CommentRepository $commentRepository): Response
     {
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
@@ -68,11 +69,17 @@ class TopicController extends AbstractController
             $comment->setUser($user);
             $entityManager->persist($comment);
             $entityManager->flush();
+            return $this->redirect($request->getUri());
         }
+
+        $comments = $commentRepository->findBy([
+            "topic" =>$topic
+        ]);
 
         return $this->render('topic/show.html.twig', [
             'topic' => $topic,
             'form' => $form->createView(),
+            'comments' => $comments
         ]);
     }
 

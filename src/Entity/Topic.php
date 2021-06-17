@@ -53,7 +53,6 @@ class Topic
     public function __construct()
     {
         $this->createdAt = new \DateTime();
-        $this->updatedAt = new \DateTime();
         $this->comments = new ArrayCollection();
     }
 

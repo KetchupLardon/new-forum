@@ -90,7 +90,7 @@ class CommentController extends AbstractController
             $entityManager->remove($comment);
             $entityManager->flush();
         }
-
-        return $this->redirectToRoute('comment_index');
+        $topicId = $comment->getTopic()->getId();
+        return $this->redirectToRoute('topic_show',['id' => $topicId]);
     }
 }
