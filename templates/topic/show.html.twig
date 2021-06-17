@@ -32,9 +32,6 @@
 
     <a href="{{ path('topic_index') }}">back to list</a>
 
-<<<<<<< HEAD
-    {% if (is_granted('IS_AUTHENTICATED_FULLY') and user.id == topic.user.id)%}<a href="{{ path('topic_edit', {'id': topic.id}) }}">edit</a>{% endif %}
-=======
     <p>Commentaires</p>
 
     
@@ -66,6 +63,5 @@
     <button class="btn">{{ button_label|default('Save') }}</button>
     {{ form_end(form) }}
     {% if (is_granted('IS_AUTHENTICATED_FULLY') and user.id == topic.user.id and topic.createdAt('+30 seconds'))%}<a href="{{ path('topic_edit', {'id': topic.id}) }}">edit</a>{% endif %}
->>>>>>> e2a08e249b43214363eb9643c993bba5c34c96b7
     {% if (is_granted('IS_AUTHENTICATED_FULLY') and user.id == topic.user.id)%}{{ include('topic/_delete_form.html.twig') }}{% endif %}
 {% endblock %}
