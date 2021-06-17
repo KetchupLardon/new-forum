@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/topic")
@@ -20,8 +21,10 @@ class TopicController extends AbstractController
      */
     public function index(TopicRepository $topicRepository): Response
     {
+        $user = $this->getUser();
         return $this->render('topic/index.html.twig', [
             'topics' => $topicRepository->findAll(),
+            "user" => $user,
         ]);
     }
 

@@ -14,8 +14,10 @@ class ForumController extends AbstractController
      */
     public function index(TopicRepository $topicRepository): Response
     {
+        $user = $this->getUser();
         return $this->render('forum/index.html.twig', [
             'topics' => $topicRepository->findAll(),
+            "user" => $user,
         ]);
     }
 

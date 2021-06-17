@@ -35,5 +35,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('comment_new') }}">Create new</a>
+    {% if (is_granted('IS_AUTHENTICATED_FULLY'))%}<a href="{{ path('comment_new') }}">Create new</a>{% endif %}
 {% endblock %}
