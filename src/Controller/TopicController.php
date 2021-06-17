@@ -58,8 +58,10 @@ class TopicController extends AbstractController
      */
     public function show(Topic $topic): Response
     {
+        $user = $this->getUser();
         return $this->render('topic/show.html.twig', [
             'topic' => $topic,
+            "user" => $user,
         ]);
     }
 
