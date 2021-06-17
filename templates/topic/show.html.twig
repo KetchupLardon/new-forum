@@ -32,7 +32,7 @@
 
     <a href="{{ path('topic_index') }}">back to list</a>
 
-    <a href="{{ path('topic_edit', {'id': topic.id}) }}">edit</a>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}<a href="{{ path('topic_edit', {'id': topic.id}) }}">edit</a>{% endif %}
 
-    {{ include('topic/_delete_form.html.twig') }}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}{{ include('topic/_delete_form.html.twig') }}{% endif %}
 {% endblock %}
