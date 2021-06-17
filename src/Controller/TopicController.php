@@ -23,8 +23,10 @@ class TopicController extends AbstractController
      */
     public function index(TopicRepository $topicRepository): Response
     {
+        $user = $this->getUser();
         return $this->render('topic/index.html.twig', [
             'topics' => $topicRepository->findAll(),
+            "user" => $user,
         ]);
     }
 
@@ -71,7 +73,7 @@ class TopicController extends AbstractController
             $entityManager->flush();
             return $this->redirect($request->getUri());
         }
-
+        $user = $this->getUser();
         $comments = $commentRepository->findBy([
             "topic" =>$topic
         ]);
@@ -79,7 +81,8 @@ class TopicController extends AbstractController
         return $this->render('topic/show.html.twig', [
             'topic' => $topic,
             'form' => $form->createView(),
-            'comments' => $comments
+            'comments' => $comments,
+            "user" => $user,
         ]);
     }
 
