@@ -41,4 +41,4 @@ security:
     access_control:
         # require ROLE_ADMIN for /admin*
         - { path: '^/admin', roles: [IS_AUTHENTICATED_FULLY, ROLE_ADMIN] }
-        - { path: '^/ajouter', roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: '^/topic/new', roles: [IS_AUTHENTICATED_FULLY] }
