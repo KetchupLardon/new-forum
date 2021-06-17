@@ -54,18 +54,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $lastName;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @var string|null
-     */
-    private $image;
-
-    /**
-     * @Vich\UploadableField(mapping="profile_picture", fileNameProperty="image")
-     * @var File|null
-     */
-    private $imageFile;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -224,30 +212,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->updatedAt = $updatedAt;
 
         return $this;
-    }
-
-    public function setImageFile(File $image = null)
-    {
-        $this->imageFile = $image;
-
-        if ($image) {
-            $this->updatedAt = new \DateTime('now');
-        }
-    }
-
-    public function getImageFile()
-    {
-        return $this->imageFile;
-    }
-
-    public function setImage($image)
-    {
-        $this->image = $image;
-    }
-
-    public function getImage()
-    {
-        return $this->image;
     }
 
     /**
