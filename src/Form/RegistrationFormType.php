@@ -21,7 +21,7 @@ class RegistrationFormType extends AbstractType
             ->add('email')
             ->add('firstName')
             ->add('lastName')
-            // ->add('imageFile', VichImageType::class)
+            #->add('imageFile', VichImageType::class)
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
