@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Topic;
+use App\Entity\Comment;
+use App\Form\CommentType;
 use App\Form\TopicType;
 use App\Repository\TopicRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/topic")
@@ -51,12 +53,26 @@ class TopicController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="topic_show", methods={"GET"})
+     * @Route("/{id}", name="topic_show", methods={"GET", "POST"})
      */
-    public function show(Topic $topic): Response
+    public function show(Topic $topic, Request $request): Response
     {
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->getUser();
+            $entityManager = $this->getDoctrine()->getManager();
+            $comment->setTopic($topic);
+            $comment->setUser($user);
+            $entityManager->persist($comment);
+            $entityManager->flush();
+        }
+
         return $this->render('topic/show.html.twig', [
             'topic' => $topic,
+            'form' => $form->createView(),
         ]);
     }
 
