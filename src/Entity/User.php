@@ -73,12 +73,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity=PostLike::class, mappedBy="user")
+     */
+    private $Likes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=PostDislike::class, mappedBy="user")
+     */
+    private $Dislikes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=PostReports::class, mappedBy="user")
+     */
+    private $Reports;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
         $this->topics = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->Likes = new ArrayCollection();
+        $this->Dislikes = new ArrayCollection();
+        $this->Reports = new ArrayCollection();
     }
 
     public function getUsername(){
@@ -273,6 +291,96 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($comment->getUser() === $this) {
                 $comment->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PostLike[]
+     */
+    public function getLikes(): Collection
+    {
+        return $this->Likes;
+    }
+
+    public function addLike(PostLike $like): self
+    {
+        if (!$this->Likes->contains($like)) {
+            $this->Likes[] = $like;
+            $like->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(PostLike $like): self
+    {
+        if ($this->Likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getUser() === $this) {
+                $like->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PostDislike[]
+     */
+    public function getDislikes(): Collection
+    {
+        return $this->Dislikes;
+    }
+
+    public function addDislike(PostDislike $dislike): self
+    {
+        if (!$this->Dislikes->contains($dislike)) {
+            $this->Dislikes[] = $dislike;
+            $dislike->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDislike(PostDislike $dislike): self
+    {
+        if ($this->Dislikes->removeElement($dislike)) {
+            // set the owning side to null (unless already changed)
+            if ($dislike->getUser() === $this) {
+                $dislike->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PostReports[]
+     */
+    public function getReports(): Collection
+    {
+        return $this->Reports;
+    }
+
+    public function addReport(PostReports $report): self
+    {
+        if (!$this->Reports->contains($report)) {
+            $this->Reports[] = $report;
+            $report->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReport(PostReports $report): self
+    {
+        if ($this->Reports->removeElement($report)) {
+            // set the owning side to null (unless already changed)
+            if ($report->getUser() === $this) {
+                $report->setUser(null);
             }
         }
 
