@@ -3,16 +3,11 @@
 {% block title %}Edit Topic{% endblock %}
 
 {% block body %}
-    <h1 style="margin-top:5%;margin-bottom:3%;">Edit Topic</h1>
-    {{ include('topic/_form.html.twig', {'button_label': 'Update'}) }}
-<<<<<<< HEAD
+    <h1 style="margin-top:5%;margin-bottom:3%;">Editer le sujet</h1>
+    {{ include('topic/_form.html.twig', {'button_label': 'Enregistrer'}) }}
     <div style="text-align: center;margin-top:-7%;margin-bottom:2%">
-    <a href="{{ path('topic_index') }}">back to list</a>
-    </div>
-=======
-
     <a href="{{ path('forum') }}">Retour</a>
+    </div>
 
->>>>>>> 6eb37bcdb7ec8cb29183ecad3057cee182bd8073
     {{ include('topic/_delete_form.html.twig') }}
 {% endblock %}

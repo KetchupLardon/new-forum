@@ -23,14 +23,11 @@
 
                 <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                    <a class="nav-link" href="/topic/new">Créer un article</a>
-                    </li>
                     {% if (is_granted('IS_AUTHENTICATED_FULLY')) %}
-                    <a class="nav-link" href="/login">Se déconnecter</a>
+                    <a class="nav-link" href="/logout">Se déconnecter</a>
                     {% else %}
                     <a class="nav-link" href="/login">Se connecter</a>
-                    <a class="nav-link" href="/login">S'inscrire'</a>
+                    <a class="nav-link" href="/register">S'inscrire</a>
                     {% endif %}
                     </li>
                 </ul>

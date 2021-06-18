@@ -8,25 +8,23 @@
 <table class="table table-hover">
         <thead>
             <tr class="table-secondary">
-                <th>Id</th>
-                <th>Title</th>
-                <th>Content</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
+                <th>Titre</th>
+                <th>Contenu</th>
+                <th>Créé le</th>
+                <th>Mis à jour le</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for topic in topics %}
             <tr class="table-light">
-                <td>{{ topic.id }}</td>
                 <td>{{ topic.title }}</td>
                 <td>{{ topic.content }}</td>
-                <td>{{ topic.createdAt ? topic.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ topic.updatedAt ? topic.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ topic.createdAt ? topic.createdAt|format_datetime(locale='fr') : '' }}</td>
+                <td>{{ topic.updatedAt ? topic.updatedAt|format_datetime(locale='fr') : '' }}</td>
                 <td>
-                    <a href="{{ path('topic_show', {'id': topic.id}) }}">show</a>
-                    {% if (is_granted('IS_AUTHENTICATED_FULLY') and user.id == topic.user.id)%}<a href="{{ path('topic_edit', {'id': topic.id}) }}" style="display:hidden;">edit</a>{% endif %}
+                    <a href="{{ path('topic_show', {'id': topic.id}) }}">Voir</a>
+                    {% if (is_granted('IS_AUTHENTICATED_FULLY') and user.id == topic.user.id)%}<a href="{{ path('topic_edit', {'id': topic.id}) }}" style="display:hidden;">Editer</a>{% endif %}
                 </td>
             </tr>
         {% else %}
@@ -38,6 +36,6 @@
     </table>
 
     {% if (is_granted('IS_AUTHENTICATED_FULLY'))%}
-        <a href="{{ path('topic_new') }}" class="nav-link" style="display:flex;align-items:center;justify-content:center;" >Create new</a>
+        <a href="{{ path('topic_new') }}" class="nav-link" style="display:flex;align-items:center;justify-content:center;" >Créer un nouveau sujet</a>
     {% endif %}
 {% endblock %}

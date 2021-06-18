@@ -3,11 +3,9 @@
 {% block title %}Edit Comment{% endblock %}
 
 {% block body %}
-    <h1>Edit Comment</h1>
+    <h1>Editer un commentaire</h1>
 
-    {{ include('comment/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('comment/_form.html.twig', {'button_label': 'Enregistrer'}) }}
 
     <a href="{{ path('topic_show', {'id': comment.getTopic().getId()}) }}">Retour</a>
-
-    {{ include('comment/_delete_form.html.twig') }}
 {% endblock %}

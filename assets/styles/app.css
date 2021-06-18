@@ -2,7 +2,31 @@ body {
     background-color: lightgray;
 }
 
-.rowa{
+.rowAuthor{
     display: flex;
-    flex-direction: row;
+}
+.rowAuthor > div:first-child{
+    padding-right: 5px;
+}
+
+.content{
+    font-size: larger;
+    margin-bottom: 3%;
+}
+
+.metaComment{
+    font-size: small;
+}
+
+.personalBtn{
+    background-color:#2c3e50;
+    color:white;
+}
+
+.commentContent{
+    font-size: large;
+}
+
+.commentLabel{
+    font-size: 20px;
 }

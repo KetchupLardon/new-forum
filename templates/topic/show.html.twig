@@ -3,65 +3,53 @@
 {% block title %}Topic{% endblock %}
 
 {% block body %}
-    <h1 style="margin-top:5%;margin-bottom:3%;">Topic</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ topic.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ topic.title }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ topic.content }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ topic.createdAt ? topic.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ topic.updatedAt ? topic.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
     <a href="{{ path('forum') }}">Retour</a>
 
-    <p>Commentaires</p>
+    <h1 style="margin-top:5%;margin-bottom:3%;">{{ topic.title }}</h1>
+
+    <p class="content">{{ topic.content }}</p>
+    {% if (is_granted('IS_AUTHENTICATED_FULLY') and user.id == topic.user.id and topic.createdAt('+30 seconds'))%}<a href="{{ path('topic_edit', {'id': topic.id}) }}">éditer</a>{% endif %}
+    {% if (is_granted('IS_AUTHENTICATED_FULLY') and user.id == topic.user.id)%}{{ include('topic/_delete_form.html.twig') }}{% endif %}
+    
+    {% if topic.updatedAt %}
+        <p>Modifier le {{ topic.createdAt|format_datetime(locale='fr') }}</p>
+    {% else %}
+        <p>Créé le {{ topic.createdAt|format_datetime(locale='fr') }}</p>
+    {% endif %}
+
+    <p class="commentLabel">Commentaires</p>
+    <hr>
 
     
         {% for comment in comments %}
             <div>
-            <div>{{comment.content}}</div>
-            <div class="rowa">
-                <div>{{ comment.getUser().getFirstName() }}</div>
-                <div>{{ comment.getUser().getLastName() }}</div>
-                {% if comment.updatedAt %}
-                    <div>Modifié le {{ comment.updatedAt|date('Y-m-d H:i:s') }}</div>
-                {% else %}
-                    <div>Créé le{{ comment.createdAt|date('Y-m-d H:i:s') }}</div>
-                {% endif %}
-            </div>
-                <div>
-                    <a href="{{ path('comment_edit', {'id': comment.id}) }}">edit</a>
-                    {{ include('comment/_delete_form.html.twig') }}
+            <div class="commentContent">{{comment.content}}</div>
+            <div class="metaComment">
+                <div class="rowAuthor">
+                    <div>{{ comment.getUser().getFirstName() }}</div>
+                    <div>{{ comment.getUser().getLastName() }}</div>
+                </div>
+                    {% if comment.updatedAt %}
+                        <div>Modifié le {{ comment.updatedAt|date('Y-m-d H:i:s') }}</div>
+                    {% else %}
+                        <div>Créé le{{ comment.createdAt|date('Y-m-d H:i:s') }}</div>
+                    {% endif %}
+                    <div class="rowAuthor">
+                        {% if (is_granted('IS_AUTHENTICATED_FULLY') and user.id == comment.user.id)%}
+                            <a href="{{ path('comment_edit', {'id': comment.id}) }}">éditer</a>
+                            {{ include('comment/_delete_form.html.twig') }}
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         {% else %}
             <tr>
-                <div colspan="5">no records found</div>
+                <div colspan="5">Aucun commentaire</div>
             </tr>
         {% endfor %}
 
     {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <button class="btn" style="background-color:#2c3e50;color:white;">{{ button_label|default('Enregistrer') }}</button>
     {{ form_end(form) }}
-    {% if (is_granted('IS_AUTHENTICATED_FULLY') and user.id == topic.user.id and topic.createdAt('+30 seconds'))%}<a href="{{ path('topic_edit', {'id': topic.id}) }}">edit</a>{% endif %}
-    {% if (is_granted('IS_AUTHENTICATED_FULLY') and user.id == topic.user.id)%}{{ include('topic/_delete_form.html.twig') }}{% endif %}
 {% endblock %}
