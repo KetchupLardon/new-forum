@@ -15,11 +15,12 @@ class ForumController extends AbstractController
     public function index(EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
-        
+
         $conn = $em->getConnection();
         $sql = '
-        SELECT t.id, t.user_id as userId, t.title, t.content, t.created_at as createdAt, t.updated_at as updatedAt, r.topic_id as topicId, is_reported as isReported FROM topic t
+        SELECT t.id, t.user_id as userId, t.title, t.content, t.created_at as createdAt, t.updated_at as updatedAt, r.topic_id as topicId, is_reported as isReported, u.id as userReporter, r.id as idReporter FROM topic t
         LEFT JOIN report r ON t.id = r.topic_id
+        LEFT JOIN user u on r.user_id = u.id
         ';
         $stmt = $conn->prepare($sql);
         $stmt->execute();
