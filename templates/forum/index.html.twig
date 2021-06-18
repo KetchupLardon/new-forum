@@ -9,9 +9,7 @@
         <thead>
             <tr class="table-secondary">
                 <th>Titre</th>
-                <th>Contenu</th>
-                <th>Créé le</th>
-                <th>Mis à jour le</th>
+                <th>Date</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -19,12 +17,13 @@
         {% for topic in topics %}
             <tr class="table-light">
                 <td>{{ topic.title }}</td>
-                <td>{{ topic.content }}</td>
-                <td>{{ topic.createdAt ? topic.createdAt|format_datetime(locale='fr') : '' }}</td>
-                <td>{{ topic.updatedAt ? topic.updatedAt|format_datetime(locale='fr') : '' }}</td>
+                {% if topic.updatedAt %}
+                    <td>Modifié le {{ topic.updatedAt|format_datetime(locale='fr') }}</td>
+                {% else %}
+                    <td>Créé le {{ topic.createdAt|format_datetime(locale='fr') }}</td>
+                {% endif %}
                 <td>
                     <a href="{{ path('topic_show', {'id': topic.id}) }}">Voir</a>
-                    {% if (is_granted('IS_AUTHENTICATED_FULLY') and user.id == topic.user.id)%}<a href="{{ path('topic_edit', {'id': topic.id}) }}" style="display:hidden;">Editer</a>{% endif %}
                 </td>
             </tr>
         {% else %}

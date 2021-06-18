@@ -35,7 +35,7 @@ class TopicController extends AbstractController
             $entityManager->persist($topic);
             $entityManager->flush();
 
-            return $this->redirectToRoute('topic_index');
+            return $this->redirectToRoute('forum');
         }
 
         return $this->render('topic/new.html.twig', [
@@ -85,7 +85,9 @@ class TopicController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $topic->setUpdatedAt(new \DateTime());
+            $entityManager->flush();
 
             return $this->redirectToRoute('forum');
         }
