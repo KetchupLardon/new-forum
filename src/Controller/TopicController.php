@@ -58,6 +58,7 @@ class TopicController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $comment->setTopic($topic);
             $comment->setUser($user);
+            $comment->setUpdatedAt(new \DateTime());
             $entityManager->persist($comment);
             $entityManager->flush();
             return $this->redirect($request->getUri());
@@ -86,7 +87,7 @@ class TopicController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('topic_index');
+            return $this->redirectToRoute('forum');
         }
 
         return $this->render('topic/edit.html.twig', [
@@ -106,6 +107,6 @@ class TopicController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('topic_index');
+        return $this->redirectToRoute('forum');
     }
 }

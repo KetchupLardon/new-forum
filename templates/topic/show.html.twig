@@ -8,7 +8,7 @@
     <h1 style="margin-top:5%;margin-bottom:3%;">{{ topic.title }}</h1>
 
     <p class="content">{{ topic.content }}</p>
-    {% if (is_granted('IS_AUTHENTICATED_FULLY') and user.id == topic.user.id and topic.createdAt('+30 seconds'))%}<a href="{{ path('topic_edit', {'id': topic.id}) }}">éditer</a>{% endif %}
+    {% if (is_granted('IS_AUTHENTICATED_FULLY') and user.id == topic.user.id and topic.createdAt|date("U") > "-30 minutes"|date("U"))%}<a href="{{ path('topic_edit', {'id': topic.id}) }}">éditer</a>{% endif %}
     {% if (is_granted('IS_AUTHENTICATED_FULLY') and user.id == topic.user.id)%}{{ include('topic/_delete_form.html.twig') }}{% endif %}
     
     {% if topic.updatedAt %}
@@ -35,7 +35,7 @@
                         <div>Créé le{{ comment.createdAt|date('Y-m-d H:i:s') }}</div>
                     {% endif %}
                     <div class="rowAuthor">
-                        {% if (is_granted('IS_AUTHENTICATED_FULLY') and user.id == comment.user.id)%}
+                        {% if (is_granted('IS_AUTHENTICATED_FULLY') and user.id == comment.user.id and comment.createdAt|date("U") > "-30 minutes"|date("U"))%}
                             <a href="{{ path('comment_edit', {'id': comment.id}) }}">éditer</a>
                             {{ include('comment/_delete_form.html.twig') }}
                         {% endif %}
