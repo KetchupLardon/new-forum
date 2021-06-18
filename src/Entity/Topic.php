@@ -266,25 +266,4 @@ class Topic
 
         return $this;
     }
-
-    public function isLikedByUser(User $user) : bool {
-        foreach($this->Likes as $like) {
-            if($like->getUser() === $user) return true;
-        }
-        return false;
-    }
-
-    public function isDisLikedByUser(User $user) : bool {
-        foreach($this->Dislikes as $dislike) {
-            if($dislike->getUser() === $user) return true;
-        }
-        return false;
-    }
-
-    public function isReportedByUser(User $user) : bool {
-        foreach($this->Reports as $reports) {
-            if($reports->getUser() === $user) return true;
-        }
-        return false;
-    }
 }

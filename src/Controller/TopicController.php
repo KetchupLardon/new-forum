@@ -18,17 +18,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class TopicController extends AbstractController
 {
-    /**
-     * @Route("/", name="topic_index", methods={"GET"})
-     */
-    public function index(TopicRepository $topicRepository): Response
-    {
-        $user = $this->getUser();
-        return $this->render('topic/index.html.twig', [
-            'topics' => $topicRepository->findAll(),
-            "user" => $user,
-        ]);
-    }
 
     /**
      * @Route("/new", name="topic_new", methods={"GET","POST"})
