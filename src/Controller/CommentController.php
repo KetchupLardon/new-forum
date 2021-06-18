@@ -15,15 +15,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CommentController extends AbstractController
 {
-    /**
-     * @Route("/", name="comment_index", methods={"GET"})
-     */
-    public function index(CommentRepository $commentRepository): Response
-    {
-        return $this->render('comment/index.html.twig', [
-            'comments' => $commentRepository->findAll(),
-        ]);
-    }
 
     /**
      * @Route("/new", name="comment_new", methods={"GET","POST"})
@@ -51,16 +42,6 @@ class CommentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="comment_show", methods={"GET"})
-     */
-    public function show(Comment $comment): Response
-    {
-        return $this->render('comment/show.html.twig', [
-            'comment' => $comment,
-        ]);
-    }
-
-    /**
      * @Route("/{id}/edit", name="comment_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Comment $comment): Response
@@ -74,6 +55,7 @@ class CommentController extends AbstractController
             return $this->redirectToRoute('comment_index');
         }
 
+        // $topicId = $comment->getTopic()->getId();
         return $this->render('comment/edit.html.twig', [
             'comment' => $comment,
             'form' => $form->createView(),
