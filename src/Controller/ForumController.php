@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use App\Repository\TopicRepository;
-use App\Repository\ReportRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
