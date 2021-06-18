@@ -84,9 +84,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $Dislikes;
 
     /**
-     * @ORM\OneToMany(targetEntity=PostReports::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Report::class, mappedBy="user")
      */
-    private $Reports;
+    private $reports;
 
     public function __construct()
     {
@@ -96,7 +96,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->comments = new ArrayCollection();
         $this->Likes = new ArrayCollection();
         $this->Dislikes = new ArrayCollection();
-        $this->Reports = new ArrayCollection();
+        $this->reports = new ArrayCollection();
     }
 
     public function getUsername(){
@@ -358,26 +358,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection|PostReports[]
+     * @return Collection|Report[]
      */
     public function getReports(): Collection
     {
-        return $this->Reports;
+        return $this->reports;
     }
 
-    public function addReport(PostReports $report): self
+    public function addReport(Report $report): self
     {
-        if (!$this->Reports->contains($report)) {
-            $this->Reports[] = $report;
+        if (!$this->reports->contains($report)) {
+            $this->reports[] = $report;
             $report->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeReport(PostReports $report): self
+    public function removeReport(Report $report): self
     {
-        if ($this->Reports->removeElement($report)) {
+        if ($this->reports->removeElement($report)) {
             // set the owning side to null (unless already changed)
             if ($report->getUser() === $this) {
                 $report->setUser(null);

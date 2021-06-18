@@ -23,7 +23,11 @@
                     <td>Créé le {{ topic.createdAt|format_datetime(locale='fr') }}</td>
                 {% endif %}
                 <td>
+                {% if topic.isReported %}
+                    <i>Contenu signalé</i>
+                {% else %}
                     <a href="{{ path('topic_show', {'id': topic.id}) }}">Voir</a>
+                {% endif %}
                 </td>
             </tr>
         {% else %}

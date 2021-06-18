@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Topic;
+use App\Entity\Report;
 use App\Entity\Comment;
-use App\Form\CommentType;
 use App\Form\TopicType;
-use App\Repository\TopicRepository;
+use App\Form\ReportType;
+use App\Form\CommentType;
+use App\Repository\ReportRepository;
 use App\Repository\CommentRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,14 +49,14 @@ class TopicController extends AbstractController
     /**
      * @Route("/{id}", name="topic_show", methods={"GET", "POST"})
      */
-    public function show(Topic $topic, Request $request, CommentRepository $commentRepository): Response
+    public function show(Topic $topic, Request $request, CommentRepository $commentRepository, ReportRepository $reportRepository): Response
     {
+        $user = $this->getUser();
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->getUser();
             $entityManager = $this->getDoctrine()->getManager();
             $comment->setTopic($topic);
             $comment->setUser($user);
@@ -63,16 +65,37 @@ class TopicController extends AbstractController
             $entityManager->flush();
             return $this->redirect($request->getUri());
         }
-        $user = $this->getUser();
+
+        
+        $report = new Report();
+        $formReport = $this->createForm(ReportType::class, $report);
+        $formReport->handleRequest($request);
+
+        if ($formReport->isSubmitted() && $formReport->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $report->setTopic($topic);
+            $report->setUser($user);
+            $entityManager->persist($report);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('forum');
+        }
+        
         $comments = $commentRepository->findBy([
+            "topic" =>$topic
+        ]);
+        
+        $reports = $reportRepository->findOneBy([
             "topic" =>$topic
         ]);
 
         return $this->render('topic/show.html.twig', [
             'topic' => $topic,
             'form' => $form->createView(),
+            'formReport' => $formReport->createView(),
             'comments' => $comments,
             "user" => $user,
+            "report" => $reports
         ]);
     }
 

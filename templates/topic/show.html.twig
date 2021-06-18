@@ -10,6 +10,12 @@
     <p class="content">{{ topic.content }}</p>
     {% if (is_granted('IS_AUTHENTICATED_FULLY') and user.id == topic.user.id and topic.createdAt|date("U") > "-30 minutes"|date("U") and comments|length == 0)%}<a href="{{ path('topic_edit', {'id': topic.id}) }}">éditer</a>{% endif %}
     {% if (is_granted('IS_AUTHENTICATED_FULLY') and user.id == topic.user.id)%}{{ include('topic/_delete_form.html.twig') }}{% endif %}
+
+    {% if report %}
+        {{ include('report/_delete_form.html.twig') }}
+    {% else %}
+        {{ include('report/_form.html.twig') }}
+    {% endif %}
     
     {% if topic.updatedAt %}
         <p>Modifier le {{ topic.createdAt|format_datetime(locale='fr') }}</p>
